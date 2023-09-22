@@ -1,3 +1,16 @@
+#include <fstream>
+#include <string>
+#include "Menu.cpp"
+#include "Creator.cpp"
+#include "ConvertingFilestoVectors.cpp"
+#include "DynamicFileObject.cpp"
+#include "GenerateOutputFile.cpp"
+#include "SvgtoJSON.cpp"
+
+using namespace std;
+
+
+
 
 int main()
 {
