@@ -1,0 +1,207 @@
+#include <fstream>
+#include <string>
+#include "Menu.cpp"
+#include "Creator.cpp"
+#include "ConvertingFilestoVectors.cpp"
+#include "DynamicFileObject.cpp"
+#include "GenerateOutputFile.cpp"
+#include "SvgtoJSON.cpp"
+
+using namespace std;
+
+void displayElementCounts(const Structure &str);
+
+// Function to add a new element
+void addNewElement(Structure &str, Creator &cr);
+
+int main()
+{
+    try
+    {
+        auto str = make_shared<Structure>(Structure::createStructure());
+        FileName fileName("../Testing2.svg");
+        Creator cr;
+        Menu menu;
+        ConvertingFilestoVectors cfv;
+        GenerateOutputFile outputFile;
+        cfv.temporary(fileName.x, *str);
+        SvgtoJson svgtojson;
+
+        int option;
+        do
+        {
+            menu.displayMenu();
+            cout << "Enter an Option to proceed further: ";
+            cin >> option;
+
+            switch (option)
+            {
+            case 1:
+                displayElementCounts(*str);
+                break;
+            case 2:
+                addNewElement(*str, cr);
+                break;
+            default:
+                break;
+            }
+        } while (option != 3);
+
+        FileName outfileName("C:\\Nithish_Anand\\Home_SVG_Parser\\output\\Output.svg");
+
+        if (outputFile.createOutputFile(*str))
+            svgtojson.svgtojson(outfileName.x);
+    }
+    catch (const exception &e)
+    {
+        cerr << "An exception occurred: " << e.what() << endl;
+    }
+
+    return 0;
+}
+
+void displayElementCounts(const Structure &str)
+{
+    int recSize = str.Reactangle.size();
+    int cirSize = str.Circle.size();
+    int elliSize = str.Ellipse.size();
+    int lineSize = str.Line.size();
+    int polySize = str.Polyline.size();
+    int polygSize = str.Polygon.size();
+    int pathSize = str.Path.size();
+    int groupSize = str.Group.size();
+
+    cout << "Number of Rectangles : " << recSize << endl;
+    cout << "Number of Circles : " << cirSize << endl;
+    cout << "Number of Ellipse : " << elliSize << endl;
+    cout << "Number of Line : " << lineSize << endl;
+    cout << "Number of Polyline : " << polySize << endl;
+    cout << "Number of Polygon : " << polygSize << endl;
+    cout << "Number of Path : " << pathSize << endl;
+    cout << "Number of Group : " << groupSize << endl;
+}
+
+void addNewElement(Structure &str, Creator &cr)
+{
+    int third_Option;
+    Menu menu;
+    menu.displayAddNewElement();
+    cout << "Select an option to add a new element: \n";
+    cin >> third_Option;
+
+    switch (third_Option)
+    {
+    case 1:
+        int choice;
+        cout << "Enter option 1 to enter attribute values:\n";
+        cout << "Enter option 2 to enter the entire attribute:\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            str.shapes.push_back(cr.createNewRectangle(str));
+        }
+        else
+        {
+            str.shapes.push_back(cr.createNewRectangleAsSingleAttribute(str));
+        }
+        break;
+    case 2:
+    {
+        int choice{};
+        cout << "Enter  option 1 to enter the values to attribute :\n";
+        cout << "Enter  option 2 to enter the entire attribute :\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            (str).shapes.push_back(cr.createNewCircle(str));
+        }
+        else
+        {
+            (str).shapes.push_back(cr.createNewCircleAsSingleAttribute(str));
+        }
+    }
+
+    break;
+    case 3:
+    {
+        int choice{};
+        cout << "Enter  option 1 to enter the values to attribute :\n";
+        cout << "Enter  option 2 to enter the entire attribute :\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            (str).shapes.push_back(cr.createNewEllipse(str));
+        }
+        else
+        {
+            (str).shapes.push_back(cr.createNewEllipseAsSingleAttribute(str));
+        }
+    }
+
+    break;
+    case 4:
+    {
+        int choice{};
+        cout << "Enter  option 1 to enter the values to attribute :\n";
+        cout << "Enter  option 2 to enter the entire attribute :\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            (str).shapes.push_back(cr.createNewLine(str));
+        }
+        else
+        {
+            (str).shapes.push_back(cr.createNewLineAsSingleAttribute(str));
+        }
+    }
+
+    break;
+    case 5:
+    {
+        int choice{};
+        cout << "Enter  option 1 to enter the values to attribute :\n";
+        cout << "Enter  option 2 to enter the entire attribute :\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            (str).shapes.push_back(cr.createNewPolyline(str));
+        }
+        else
+        {
+            (str).shapes.push_back(cr.createNewPolylineAsSingleAttribute(str));
+        }
+    }
+
+    break;
+    case 6:
+    {
+        int choice{};
+        cout << "Enter  option 1 to enter the values to attribute :\n";
+        cout << "Enter  option 2 to enter the entire attribute :\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            (str).shapes.push_back(cr.createNewPolygon(str));
+        }
+        else
+        {
+            (str).shapes.push_back(cr.createNewPolygonAsSingleAttribute(str));
+        }
+    }
+
+    break;
+    case 7:
+    {
+        // str.shapes.push_back(cr.createNewPath(str));
+        //   int choice{};
+        // cout<<"Enter a option:\n";
+        // cin>>choice;
+
+        (str).shapes.push_back(cr.createNewPathAsSingleAttribute(str));
+    }
+    break;
+    default:
+        cout << "Invalid Option\n";
+        break;
+    }
+}
